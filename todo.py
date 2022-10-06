@@ -129,7 +129,7 @@ def delete(update, _):
             with open('list.csv', 'r', encoding='utf-8', newline='\n') as file:
                 file_reader = csv.reader(file)
                 for row in file_reader:
-                    if text in ''.join(row):
+                    if text.lower() in ''.join(row).lower():
                         continue
                     else:
                         row = ''.join(row)
