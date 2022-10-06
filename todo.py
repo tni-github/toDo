@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 MENU, HELP, SHOW, DELETE, ADD = range(5)
 
 
-def start(update, _):
+def start(update, context):
     '''
     Функция начала диалога.
     '''
@@ -36,6 +36,8 @@ def start(update, _):
         'Привет! Я Умный_Бот. Я помогу вам создать список дел.\n\n'
         'Выберите кнопку.',
         reply_markup=markup_key)
+    context.bot.send_sticker(update.effective_chat.id,
+                             'CAACAgIAAxkBAAIJVmM-33MfFLHeukW_tKbam4IKY5p2AAI9AANSiZEj56KM1HtGgRAqBA')
     return MENU
 
 
@@ -67,7 +69,7 @@ def menu(update, _):
         return stop(update, _)
 
 
-def help(update, _):
+def help(update, context):
     '''
     Функция вызова помощи со списком команд.
     '''
@@ -75,6 +77,8 @@ def help(update, _):
     logger.info("Пользователь %s подтвердил операцию вызова списка команд, нажал %s.",
                 user.first_name, update.message.text)
     if update.message.text == '/Yes':
+        context.bot.send_sticker(update.effective_chat.id,
+                                 'CAACAgIAAxkBAAIJUGM-3ow5HcUX2tDYj5BKKELG0Q61AAJGAANSiZEj-P7l5ArVCh0qBA')
         update.message.reply_text(
             'Доступны следующие команды:'
             '/help - информация,'
@@ -83,13 +87,15 @@ def help(update, _):
             '/show - показать весь список задач,'
             '/stop - прекратить общение с ботом.')
     else:
+        context.bot.send_sticker(update.effective_chat.id,
+                                 'CAACAgIAAxkBAAIJU2M-3vVOlaF2MPr01lenVM_HplAoAAK7AAP3AsgPZJdBk2UwHMAqBA')
         logger.info("Пользователь %s отклонил операцию вызова списка команд, нажал %s.",
                     user.first_name, update.message.text)
         return MENU
     return MENU
 
 
-def add(update, _):
+def add(update, context):
     '''
     Функция добавления задачи в список.
     '''
@@ -98,8 +104,12 @@ def add(update, _):
     if text == '/No':
         logger.info("Пользователь %s отклонил операцию добавления новой задачи, нажал %s.",
                     user.first_name, update.message.text)
+        context.bot.send_sticker(update.effective_chat.id,
+                                 'CAACAgIAAxkBAAIJU2M-3vVOlaF2MPr01lenVM_HplAoAAK7AAP3AsgPZJdBk2UwHMAqBA')
         return MENU
     else:
+        context.bot.send_sticker(update.effective_chat.id,
+                                 'CAACAgIAAxkBAAIJUGM-3ow5HcUX2tDYj5BKKELG0Q61AAJGAANSiZEj-P7l5ArVCh0qBA')
         logger.info("Пользователь %s добавил задачу: %s.",
                     user.first_name, update.message.text)
         with open('list.csv', 'a', encoding='utf-8', newline='\n') as file:
@@ -110,7 +120,7 @@ def add(update, _):
     return MENU
 
 
-def delete(update, _):
+def delete(update, context):
     ''''
     Функция удаления задачи из списка.
     '''
@@ -118,10 +128,14 @@ def delete(update, _):
     str = ''
     text = update.message.text
     if text == '/No':
+        context.bot.send_sticker(update.effective_chat.id,
+                                 'CAACAgIAAxkBAAIJU2M-3vVOlaF2MPr01lenVM_HplAoAAK7AAP3AsgPZJdBk2UwHMAqBA')
         logger.info("Пользователь %s отклонил операцию удаления задачи, нажал %s.",
                     user.first_name, update.message.text)
         return MENU
     elif text and text != '/No':
+        context.bot.send_sticker(update.effective_chat.id,
+                                 'CAACAgIAAxkBAAIJUGM-3ow5HcUX2tDYj5BKKELG0Q61AAJGAANSiZEj-P7l5ArVCh0qBA')
         logger.info("Пользователь %s удаляет задачу, содержащую текст: %s.",
                     user.first_name, update.message.text)
         try:
@@ -145,12 +159,14 @@ def delete(update, _):
     return MENU
 
 
-def show(update, _):
+def show(update, context):
     '''
     Функция отображения списка дел.
     '''
     user = update.message.from_user
     if update.message.text == '/Yes':
+        context.bot.send_sticker(update.effective_chat.id,
+                                 'CAACAgIAAxkBAAIJUGM-3ow5HcUX2tDYj5BKKELG0Q61AAJGAANSiZEj-P7l5ArVCh0qBA')
         logger.info("Пользователь %s подтвердил операцию отображения списка дел, нажал %s.",
                     user.first_name, update.message.text)
         str = ''
@@ -174,7 +190,7 @@ def show(update, _):
     return MENU
 
 
-def stop(update, _):
+def stop(update, context):
     '''
     Функция остановки диалога.
     '''
@@ -188,6 +204,8 @@ def stop(update, _):
         'Будет скучно - возвращайтесь (команда: /start)!',
         reply_markup=ReplyKeyboardRemove()
     )
+    context.bot.send_sticker(update.effective_chat.id,
+                             'CAACAgIAAxkBAAIJWWM-4Ctx-UXlARGDnLMQ7uj83hn4AAJMDgACsisRSfQVv4tbKj6YKgQ')
     # Заканчиваем разговор.
     return ConversationHandler.END
 
